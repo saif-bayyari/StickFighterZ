@@ -1,0 +1,17 @@
+local Stickman = require("Stickman")
+
+Player = setmetatable({}, {__index = Stickman})
+Player.__index = Player
+
+function Player:new(name, age, job_title)
+    local instance = Stickman.new(self, name, age)
+    setmetatable(instance, Player)
+    instance.job_title = job_title
+    return instance
+end
+
+function Player:work()
+    print(self.name .. " is working as a " .. self.job_title .. ".")
+end
+
+return Player

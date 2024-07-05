@@ -1,0 +1,33 @@
+function Stickman:updateAnimation(key_states,dt)
+    if key_states.a or key_states.d then
+        if animation_counter >= ANIMATION_DELAY then
+            animation_counter = 0
+            current_frame = current_frame % #man_images + 1
+        end
+
+        man_stand_img.isVisible = false
+        for i, img in ipairs(man_images) do
+            img.isVisible = (i == current_frame)
+            img.x = man_img.x
+            img.y = man_img.y
+            img.xScale = is_flipped and -1 or 1
+        end
+
+        animation_counter = animation_counter + 1
+
+        -- Move man_img with Flux
+        local move_distance = MOVE_SPEED * dt
+        if is_flipped then
+            flux.to(man_img, 0.1, { x = man_img.x - move_distance })
+        else
+            flux.to(man_img, 0.1, { x = man_img.x + move_distance })
+        end
+    else
+        -- Reset to stand position
+        man_stand_img.isVisible = true
+        for _, img in ipairs(man_images) do
+            img.isVisible = false
+        end
+    end
+end
+
