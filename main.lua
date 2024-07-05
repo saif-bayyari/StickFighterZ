@@ -58,6 +58,9 @@ local previous_time = system.getTimer()
 -- Create a Stickman instance
 local person1 = Stickman:new("Saif", 30)
 
+person1.man_stand_img.x = 100
+person1.man_stand_img.y = 350
+
 -- Function to handle key events
 -- Function to handle key events
 local function onKeyEvent(event)
