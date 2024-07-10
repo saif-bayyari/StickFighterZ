@@ -10,6 +10,8 @@ local MAN_HEIGHT = 200  -- Desired height of the man images
 local MOVE_SPEED = 200 -- Speed in pixels per second
 local ANIMATION_DELAY = 5  -- Frames per image
 
+local FLOOR = (SCREEN_HEIGHT / 2) + 50
+
 local flux = require "flux"
 
 -- Constructor
@@ -39,7 +41,7 @@ function Stickman.new()
     -- Initial setup
     self.man_img = self.man_stand_img
     self.man_img.x = -450
-    self.man_img.y = (SCREEN_HEIGHT / 2) + 50
+    self.man_img.y = FLOOR
 
     self.is_flipped = false  -- Track if image is flipped horizontally
     self.animation_counter = 0
@@ -86,6 +88,22 @@ end
 function Stickman:update(dt)
     flux.update(dt)  -- Update Flux with delta time
     self:updateAnimation(dt)
+end
+
+
+local jumpHeight = 120
+
+
+function Stickman:jump()
+ 
+    flux.to(self.man_img, 0.5, { y = self.man_img.y - jumpHeight })
+    :ease("quadout")
+    :oncomplete(function()
+        -- Move the object back down
+        flux.to(self.man_img, 0.5, { y = FLOOR })
+            :ease("quadin")
+    end)
+
 end
 
 -- Cleanup method (if needed)

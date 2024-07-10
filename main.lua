@@ -61,6 +61,7 @@ local key_states = {
 
 -- Initialize stickman instance
 local player = Stickman.new()
+local player2 = Stickman.new()
 
 -- Initialize previous_time
 local previous_time = system.getTimer()
@@ -73,6 +74,10 @@ local function onKeyEvent(event)
             player.is_flipped = true
         elseif event.keyName == "d" then
             player.is_flipped = false
+        end
+
+        if event.keyName == "space" then
+            player:jump()
         end
     elseif event.phase == "up" then
         key_states[event.keyName] = false
